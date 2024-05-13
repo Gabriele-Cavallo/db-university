@@ -46,7 +46,7 @@ WHERE `degrees`.`name` LIKE 'Corso di Laurea Magistrale%' AND `departments`.`nam
 
 SELECT `courses`.`name` , `teachers`.`name` AS `teacher_name`, `teachers`.`surname` AS `teacher_surname`
 FROM `courses` 
-JOIN `course_teacher` ON `courses`.`id` = `course_teacher`.`teacher_id`
+JOIN `course_teacher` ON `courses`.`id` = `course_teacher`.`course_id`
 JOIN `teachers` ON `course_teacher`.`teacher_id` = `teachers`.`id`
 WHERE `teacher_id` = 44;
 
@@ -58,7 +58,7 @@ SELECT `students`.`name`, `students`.`surname`, `degrees`.`name` AS `degree_name
 FROM `students`  
 JOIN `degrees` ON `students`.`degree_id` = `degrees`.`id`  
 JOIN `departments` ON `degrees`.`department_id` = `departments`.`id`  
-ORDER BY `students`.`name`, `students`.`surname` ASC;
+ORDER BY `students`.`surname`, `students`.`name` ASC;
 
 5. Selezionare tutti i corsi di laurea con i relativi corsi e insegnanti
 
@@ -71,7 +71,7 @@ JOIN  `teachers` ON `course_teacher`.`teacher_id` = `teachers`.`id`;
 6. Selezionare tutti i docenti che insegnano nel Dipartimento di
 Matematica (54)
 
-SELECT DISTINCT `teachers`.`name` AS `teacher_name`, `teachers`.`surname` AS `teacher_surname`, `departments`.`name` AS `department_name` 
+SELECT DISTINCT `teachers`.`id` AS `teacher_id`, `teachers`.`name` AS `teacher_name`, `teachers`.`surname` AS `teacher_surname`, `departments`.`name` AS `department_name` 
 FROM `teachers`
 JOIN `course_teacher` ON `teachers`.`id` = `course_teacher`.`teacher_id`
 JOIN `courses` ON `course_teacher`.`course_id` = `courses`.`id`
@@ -84,7 +84,7 @@ per ogni esame, stampando anche il voto massimo. Successivamente,
 filtrare i tentativi con voto minimo 18.
 
 SELECT  `students`.`name` AS `student_name`,`students`.`surname` AS `student_surname`, COUNT(`student_id`) AS `student_attempts`, `exam_id` AS `exam`,
-MAX(`exam_student`.`vote`) AS `maximu_vote`
+MAX(`exam_student`.`vote`) AS `maximum_vote`
 FROM `exam_student`
 JOIN `students` ON `exam_student`.`student_id` = `students`.`id`
 JOIN `exams` ON `exam_student`.`exam_id` = `exams`.`id` 
